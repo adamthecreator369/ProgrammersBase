@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Programmer's Base</title>
+    <meta name="author" content="Adam Jost">
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous"/>
+</head>
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark" th:fragment="navbar">
+        <a class="navbar-brand" th:href="@{/}"> Programmer's Base </a>
+    </nav>
+    <div>
+        <h1 class="gradient-border bg-light text-dark mt-4 d-flex justify-content-center"
+            th:fragment="mainTitle(title)"
+            th:text="${title}">
+        </h1>
+        <div th:fragment="add-btn(link, btnTxt)" class="col-lg-3 pl-0 pr-0 mt-4">
+            <a th:href="@{${link}}" class="btn btn-sm mb-3 btn-primary" th:text="${btnTxt}"></a>
+        </div>
+        <div>
+            <div>
+                <div>
+                    <div th:fragment="btns(edit, delete)">
+                        <a th:href="@{${edit}}" class="card-link"> Edit </a>
+                        <a th:href="@{${delete}}" class="card-link text-danger"> Delete </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div th:fragment="pagination(prefix, suffix)" class="container pl-0 pr-0">
+                <div class="d-inline-flex justify-content-between">
+                    <div class="p-1">
+                        Total: [[${totalItems}]]
+                    </div>
+                    <div class="p-1">
+                        <a th:if="${currentPage > 1}" th:href="@{${prefix} + '/page/1' + ${suffix}}">First</a>
+                        <span th:unless="${currentPage > 1}">First</span>
+                    </div>
+                    <div class="p-1">
+                        <a th:if="${currentPage > 1}" th:href="@{${prefix} + '/page/' + ${currentPage - 1} + ${suffix}}">Prev</a>
+                        <span th:unless="${currentPage > 1}">Prev</span>
+                    </div>
+                    <div class="p-1">
+                        <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+                            <a  th:if="${currentPage != i}" th:href="@{${prefix} + '/page/' + ${i} + ${suffix}}">[[${i}]]</a>
+                            <span th:unless="${currentPage != i}">[[${i}]]</span>
+                        </span>
+                    </div>
+                    <div class="p-1">
+                        <a th:if="${currentPage < totalPages}" th:href="@{${prefix} + '/page/' + ${currentPage + 1} + ${suffix}}">Next</a>
+                        <span th:unless="${currentPage < totalPages}">Next</span>
+                    </div>
+                    <div class="p-1">
+                        <a th:if="${currentPage < totalPages}" th:href="@{${prefix} + '/page/' + ${totalPages} + ${suffix}}">Last</a>
+                        <span th:unless="${currentPage < totalPages}">Last</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

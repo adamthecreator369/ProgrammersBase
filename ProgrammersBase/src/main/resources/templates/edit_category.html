@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head><!--/*/ <th:block th:include="fragments/common :: head"></th:block> /*/--></head>
+<style>
+@import url(https://fonts.googleapis.com/css?family=Righteous);
+h1, nav { font-family: 'Righteous', serif; }
+nav { background-color: #1D1F20; }
+</style>
+<body>
+    <nav th:replace="fragments/common :: navbar"></nav>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card pt-4 pb-3">
+                <h1 class="text-center"> Edit Category </h1>
+                <div class="card-body">
+                    <form th:action="@{/{path} (path=${programmingLanguage} + '/' + ${categoryId})}"
+                          th:object="${category}"
+                          method="POST">
+                        <div class="form-group">
+                            <label> Category </label>
+                            <input
+                                    type="text"
+                                    name="name"
+                                    th:field="*{name}"
+                                    class="form-control"
+                                    placeholder="Enter the Name of the Category"
+                                    minlength="2"
+                                    maxLength="200"
+                                    required
+                            />
+                        </div>
+                        <div class="box-footer">
+                            <button type="submit" class="btn btn-primary">
+                                Submit
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

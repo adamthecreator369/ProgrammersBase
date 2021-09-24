@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head><!--/*/ <th:block th:include="fragments/common :: head"></th:block> /*/--></head>
+<style>
+@import url(https://fonts.googleapis.com/css?family=Righteous);
+h1, nav { font-family: 'Righteous', serif; }
+nav { background-color: #1D1F20; }
+</style>
+<body>
+  <nav th:replace="fragments/common :: navbar"></nav>
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-lg-6 col-md-6 col-sm-6 container card pt-4 pb-3">
+        <h1 class="text-center"> Add Programming Language </h1>
+        <div class="card-body">
+          <form th:action="@{/}" th:object="${programmingLanguage}" method="POST">
+            <div class="form-group">
+              <label> Programming Language </label>
+              <input
+                      type="text"
+                      name="name"
+                      th:field="*{name}"
+                      class="form-control"
+                      placeholder="Enter the Name of the Language"
+                      minlength="1"
+                      maxlength="35"
+                      required
+              />
+            </div>
+            <div class="box-footer">
+              <button type="submit" class="btn btn-primary"> Submit </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

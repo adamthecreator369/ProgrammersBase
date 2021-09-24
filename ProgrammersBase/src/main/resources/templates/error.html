@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head><!--/*/ <th:block th:include="fragments/common :: head"></th:block> /*/--></head>
+<style>
+@import url(https://fonts.googleapis.com/css?family=Righteous);
+nav, h1, row { font-family: 'Righteous', serif; }
+nav { background-color: #1D1F20; }
+h1 {
+  display: inline-block;
+  color: white;
+  font-size: calc(1.325rem + 2.3vw);
+  text-shadow: .03em .03em 0 hsla(230,40%,50%,1);
+  }
+.box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  }
+ .large-box {
+  min-height: 200px !important;
+ }
+.gradient-border {
+  --borderWidth: 3px;
+  background: #1D1F20;
+  position: relative;
+  border-radius: var(--borderWidth);
+}
+.gradient-border:after {
+  content: '';
+  position: absolute;
+  top: calc(-1 * var(--borderWidth));
+  left: calc(-1 * var(--borderWidth));
+  height: calc(100% + var(--borderWidth) * 2);
+  width: calc(100% + var(--borderWidth) * 2);
+  background: linear-gradient(60deg, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82);
+  border-radius: calc(2 * var(--borderWidth));
+  z-index: -1;
+  animation: animatedgradient 3s ease alternate infinite;
+  background-size: 300% 300%;
+}
+@keyframes animatedgradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+.text-black { color: #000; }
+.sp-remove {
+  padding-right:0;
+  padding-left: 0;
+}
+.pad-left {
+  padding-left: calc(30px - 1.5vw);
+ }
+ * { color: #000; }
+</style>
+<body>
+    <nav th:replace="fragments/common :: navbar"></nav>
+    <div class ="container">
+        <h1 class="gradient-border box bg-light text-black mt-4 mb-4 justify-content-center"
+            th:text = "'Oops... You Broke Something!'"
+        />
+        <table class="table table-striped table-bordered">
+            <tr>
+                <td>Date</td>
+                <td th:text="${timestamp}"/>
+            </tr>
+            <tr>
+                <td>Path</td>
+                <td th:text="${path}"/>
+            </tr>
+            <tr>
+                <td>Error</td>
+                <td th:text="${error}"/>
+            </tr>
+            <tr>
+                <td>Status</td>
+                <td th:text="${status}"/>
+            </tr>
+            <tr>
+                <td>Message</td>
+                <td th:text="${message}"/>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

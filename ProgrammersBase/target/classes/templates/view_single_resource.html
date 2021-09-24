@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head><!--/*/ <th:block th:include="fragments/common :: head"></th:block> /*/--></head>
+<style>
+@import url(https://fonts.googleapis.com/css?family=Righteous);
+nav, h1, h2, row { font-family: 'Righteous', serif; }
+nav { background-color: #1D1F20; }
+h1, h2 {
+  display: inline-block;
+  font-size: calc(1.325rem + 2.3vw);
+  text-shadow: .03em .03em 0 hsla(230,40%,50%,1);
+}
+h2 { font-size: calc(.9rem + 1vw); }
+.large-box { min-height: 200px !important; }
+.gradient-border {
+  --borderWidth: 3px;
+  background: #1D1F20;
+  position: relative;
+  border-radius: var(--borderWidth);
+}
+.gradient-border:after {
+  content: '';
+  position: absolute;
+  top: calc(-1 * var(--borderWidth));
+  left: calc(-1 * var(--borderWidth));
+  height: calc(100% + var(--borderWidth) * 2);
+  width: calc(100% + var(--borderWidth) * 2);
+  background: linear-gradient(60deg, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82);
+  border-radius: calc(2 * var(--borderWidth));
+  z-index: -1;
+  animation: animatedgradient 3s ease alternate infinite;
+  background-size: 300% 300%;
+}
+@keyframes animatedgradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.small-font { font-size: calc(1.025rem + 1.3vw); }
+.box-shadow { box-shadow: 0 1px 2px rgba(0,0,0,0.15); }
+.box-shadow:hover { box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+.box-shadow::after {
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  opacity: 0;
+  transition: opacity 0.6s ease-in-out;
+}
+.box-shadow:hover::after {  opacity: 1; }
+.pad-left { padding-left: calc(30px - 1.5vw); }
+</style>
+<body>
+    <nav th:replace="fragments/common :: navbar"></nav>
+    <div class ="container pad-left">
+        <h1 class="gradient-border d-flex bg-light text-dark mt-4 justify-content-center"
+            style="align-items:center;"
+            th:text = "${category}">
+        </h1>
+        <div class="col-lg-3 pl-0 mt-4">
+            <a th:href="@{/ProgrammingLanguage/{path} (path=${programmingLanguage} + '/' + ${category} + '/' + ${categoryId} + '/' + ${resource.title} + '/' + ${resource.id} + '/edit')}"
+               class="btn btn-sm mb-3 btn-primary">
+                Edit
+            </a>
+            <a th:href="@{/ProgrammingLanguage/{path} (path=${programmingLanguage} + '/' + ${category} + '/' + ${categoryId} + '/' + ${resource.title} + '/' + ${resource.id} + '/delete')}"
+               class="btn btn-sm mb-3 btn-danger">
+                Delete
+            </a>
+        </div>
+        <div class="row justify-content-between">
+            <div class="col-12">
+                <div class="card mb-3 gradient-border d-flex bg-light" style="padding:15px 10px;">
+                    <div class="card-title card-mod box">
+                        <h1 class="text-dark small-font" th:text="${resource.title}"></h1>
+                    </div>
+                    <div>
+                        <p  class="text-dark" th:text="${resource.body}"></p>
+                    </div>
+                    <div th:if="${resource.link != ''}" class="margined">
+                        <h2 class="text-dark mt-3 mb-3">Helpful Resource</h2>
+                        <br>
+                        <a th:href="${resource.link}" th:text="${resource.link}"></a>
+                    </div>
+                    <div th:if="${resource.image != null}" class="justify-content-center mt-3 mb-3">
+                        <h2 class="text-dark mt-3 mb-3">Resource Image</h2>
+                        <div class="mt-3 mb-3 d-flex justify-content-center" >
+                            <img class="col-11" style="height:100%; width:100%;" th:src="@{'/image?id='+ ${resource.id}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

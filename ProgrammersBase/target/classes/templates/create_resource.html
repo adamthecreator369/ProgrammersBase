@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head><!--/*/ <th:block th:include="fragments/common :: head"></th:block> /*/--></head>
+<style>
+@import url(https://fonts.googleapis.com/css?family=Righteous);
+h1, nav { font-family: 'Righteous', serif; }
+nav { background-color: #1D1F20; }
+</style>
+<body>
+    <nav th:replace="fragments/common :: navbar"></nav>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6 container card pt-4 pb-3">
+                <h1 class="text-center"> Add New Resource </h1>
+                <div class="card-body">
+                    <form th:action="@{/ProgrammingLanguage/{path} (path=${programmingLanguage} + '/' + ${category} + '/' + ${categoryId})}"
+                          th:object="${resource}"
+                          method="POST"
+                          enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label> Resource Title </label>
+                            <input
+                                    type="text"
+                                    name="title"
+                                    th:field="*{title}"
+                                    class="form-control"
+                                    placeholder="Enter A Title"
+                                    minlength="1"
+                                    maxlength="200"
+                                    required
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label> Resource Description </label>
+                            <input
+                                    type="text"
+                                    name="desc"
+                                    th:field="*{desc}"
+                                    class="form-control"
+                                    placeholder="Enter A Description"
+                                    minlength="2"
+                                    maxLength="300"
+                                    required
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label> Resource Body </label>
+                            <textarea
+                                    type="text"
+                                    name="body"
+                                    th:field="*{body}"
+                                    class="form-control"
+                                    placeholder="Enter A Body"
+                                    minlength="2"
+                                    required>
+                            </textarea>
+                        </div>
+                        <div class="form-group">
+                            <label> Resource Link </label>
+                            <input
+                                    type="text"
+                                    name="link"
+                                    th:field="*{link}"
+                                    class="form-control"
+                                    placeholder="Enter A URL"
+                                    minlength="5"
+                                    maxlength="300"
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label> Resource Image </label>
+                            <input
+                                    type="file"
+                                    name="file"
+                                    id="imageFile"
+                                    class="form-control"
+                                    accept="image/*"
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label id="uploadPreviewLabel" class="d-none"> Image Preview </label>
+                            <img id="uploadPreview" class="d-none form-control" style="width: 104px; height: 104px;" />
+                        </div>
+                        <div class="box-footer">
+                            <button type="submit" class="btn btn-primary"> Submit </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+<script type="text/javascript">
+var previewLabel = document.getElementById("uploadPreviewLabel");
+var preview = document.getElementById("uploadPreview");
+var fileReader = new FileReader();
+var imageUpload = document.getElementById("imageFile");
+
+imageUpload.onclick = function() {
+     this.value = ""
+     previewLabel.classList.add("d-none");
+     preview.classList.add("d-none");
+};
+
+imageUpload.onchange = function() {
+    if (this.files[0].size > 1048576) {
+        alert("Image file is too large.");
+        this.value = "";
+    } else {
+        fileReader.readAsDataURL(imageUpload.files[0]);
+        fileReader.onload = function (oFREvent) {
+            previewLabel.classList.remove("d-none");
+            preview.classList.remove("d-none");
+            preview.src = oFREvent.target.result;
+        };
+    }
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head><!--/*/ <th:block th:include="fragments/common :: head"></th:block> /*/--></head>
+<style>
+@import url(https://fonts.googleapis.com/css?family=Righteous);
+nav, h1, row { font-family: 'Righteous', serif; }
+nav { background-color: #1D1F20; }
+h1 {
+  display: inline-block;
+  font-size: calc(1.325rem + 2.3vw);
+  text-shadow: .03em .03em 0 hsla(230,40%,50%,1);
+  }
+.align-items-center { align-items: center; }
+.large-box { min-height: 200px !important; }
+.gradient-border {
+  --borderWidth: 3px;
+  background: #1D1F20;
+  position: relative;
+  border-radius: var(--borderWidth);
+}
+.gradient-border:after {
+  content: '';
+  position: absolute;
+  top: calc(-1 * var(--borderWidth));
+  left: calc(-1 * var(--borderWidth));
+  height: calc(100% + var(--borderWidth) * 2);
+  width: calc(100% + var(--borderWidth) * 2);
+  background: linear-gradient(60deg, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82);
+  border-radius: calc(2 * var(--borderWidth));
+  z-index: -1;
+  animation: animatedgradient 3s ease alternate infinite;
+  background-size: 300% 300%;
+}
+@keyframes animatedgradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.box-shadow { box-shadow: 0 1px 2px rgba(0,0,0,0.15); }
+.box-shadow:hover { box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+.box-shadow::after {
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  opacity: 0;
+  transition: opacity 0.6s ease-in-out;
+}
+.box-shadow:hover::after { opacity: 1; }
+.pad-left { padding-left: calc(30px - 1.5vw); }
+</style>
+<body>
+    <nav th:replace="fragments/common :: navbar"></nav>
+    <div class="container pad-left">
+        <div th:if="${programmingLanguage == 'C%23'}">
+            <h1 th:replace="fragments/common :: mainTitle(title='${C# Categories}')"></h1>
+        </div>
+        <div th:if="${programmingLanguage != 'C%23'}">
+            <h1 th:replace="fragments/common :: mainTitle(title=${programmingLanguage} + ' Categories')"></h1>
+        </div>
+        <div th:replace="fragments/common :: add-btn(link='/ProgrammingLanguage/' + ${programmingLanguage} + '/new', btnTxt='Add New Category')">
+        </div>
+        <div class="row justify-content-between">
+            <div th:each="category : ${categories}" class="col-6">
+                <div class="card border-dark mb-3 gradient-border d-flex justify-content-center align-items-center box-shadow">
+                    <a th:href="@{/ProgrammingLanguage/{resource}(resource=${programmingLanguage}
+                            + '/' + ${category.name} + '/' + ${category.id})}">
+                        <div class="card-body card-mod d-flex justify-content-center align-items-center large-box">
+                            <h1 class="card-title text-white" th:text="${category.name}"/>
+                        </div>
+                    </a>
+                    <div th:replace="fragments/common :: btns(edit='/ProgrammingLanguage/' + ${programmingLanguage} + '/edit/' + ${category.id}, delete='/ProgrammingLanguage/' + ${programmingLanguage} + '/' + ${category.id})">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div th:if="${totalPages > 1}">
+            <div th:replace="fragments/common :: pagination(prefix='/ProgrammingLanguage' + '/' + ${programmingLanguage}, suffix='?sortField=' + ${sortField} + '&sortDir=' + ${sortDir})">
+            </div>
+        </div>
+    </div>
+</body>
+</html>
